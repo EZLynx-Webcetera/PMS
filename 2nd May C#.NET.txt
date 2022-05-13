@@ -1,0 +1,567 @@
+Static
+static  and non-static variable
+static and non-static methods
+static and non-static constructor
+
+namespace MYAPPONE
+{
+    class Example
+    {
+        public void display()
+        {
+            Console.WriteLine("non-static method");
+        }
+
+        public static void print()
+        {
+            Console.WriteLine("static method");
+        }
+    }
+
+   class Program
+    {
+        static void Main(string[] args)
+        {
+            Example obj1 = new Example();
+            obj1.display();
+
+            Example obj2 = new Example();
+            obj2.display();
+
+            Example.print();
+        }
+    }
+}
+
+namespace MYAPPONE
+{
+    class Example
+    {
+        int radius;
+        static double pi;
+        public Example(int radius)
+        {
+            this.radius = radius;
+        }
+        static Example()
+        {
+            Example.pi = Math.PI;
+        }
+        public double compute()
+        {
+            return (Example.pi*this.radius*this.radius);
+        }
+    }
+   class Program
+    {
+        static void Main(string[] args)
+        {
+            Example obj1 = new Example(15);
+            Console.WriteLine("area of circle=" + obj1.compute());
+
+            Example obj2 = new Example(20);
+            Console.WriteLine("area of circle=" + obj2.compute());
+        }
+    }
+}
+
+Inheritance and types
+
+Single
+
+namespace MYAPPONE
+{
+    class Sample1 //Base class
+    {
+        protected int x, y;
+        public void getxy()
+        {
+            Console.WriteLine("enter  2 nos");
+            x = Convert.ToInt32(Console.ReadLine());
+            y = Convert.ToInt32(Console.ReadLine());
+        }
+    }
+    class Sample2:Sample1 //derived class
+    {
+        int result;
+
+        public void calculate()
+        {
+            result = x * y;
+            Console.WriteLine("Product of 2 nos="+result);
+        }
+    }
+   class Program
+    {
+        static void Main(string[] args)
+        {
+            Sample2 obj = new Sample2();
+            obj.getxy();
+            obj.calculate();
+        }
+    }
+}
+multiple (not supported interface)
+multilevel
+
+namespace MYAPPONE
+{
+    class Sample1 //Base class
+    {
+        protected int x, y;
+        public void getxy()
+        {
+            Console.WriteLine("enter  2 nos");
+            x = Convert.ToInt32(Console.ReadLine());
+            y = Convert.ToInt32(Console.ReadLine());
+        }
+    }
+    class Sample2:Sample1 //derived class1
+    {
+        protected int p, q;
+
+        public void compute()
+        {
+            Console.WriteLine("sum of 2 nos="+(x+y));
+        }
+        public void getpq()
+        {
+            Console.WriteLine("enter 2 nos");
+            p = Convert.ToInt32(Console.ReadLine());
+            q = Convert.ToInt32(Console.ReadLine());
+        }
+    }
+    class Sample3: Sample2 //derived class2
+    {
+        public void calculate()
+        {
+            Console.WriteLine("sum of all numbers="+(x+y+p+q));
+        }
+    }
+
+   class Program
+    {
+        static void Main(string[] args)
+        {
+            Sample3 obj = new Sample3();
+            obj.getxy();
+            obj.compute();
+            obj.getpq();
+            obj.calculate();
+        }
+    }
+}
+
+heirarchial
+namespace MYAPPONE
+{
+    //Heirarchial 
+    class Sample //Base class
+    {
+        protected int x, y,z;
+        public void getxyz()
+        {
+            Console.WriteLine("enter  3 nos");
+            x = Convert.ToInt32(Console.ReadLine());
+            y = Convert.ToInt32(Console.ReadLine());
+            z = Convert.ToInt32(Console.ReadLine());
+        }
+    }
+    class Demo1:Sample //derived class1
+    {
+        public void compute()
+        {
+            Console.WriteLine("sum of 3 nos="+(x+y+z));
+        }
+    }
+    class Demo2 : Sample //derived class2
+    {
+        public void compute()
+        {
+            Console.WriteLine("product of 3 nos=" + (x * y * z));
+        }
+    }
+    class Demo3 : Sample //derived class3
+    {
+        public void compute()
+        {
+            Console.WriteLine("Diff of 3 nos=" + (x - y - z));
+        }
+    }
+
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Demo1 obj1 = new Demo1();
+            obj1.getxyz();
+            obj1.compute();
+
+            Demo2 obj2 = new Demo2();
+            obj2.getxyz();
+            obj2.compute();
+
+            Demo3 obj3 = new Demo3();
+            obj3.getxyz();
+            obj3.compute();
+        }
+    }
+}
+
+hybrid
+
+Constructor in base and derived class:
+
+namespace MYAPPONE
+{
+    class Dept:Object
+    {
+        protected string dname;
+        protected int noofemp;
+
+        public Dept(string dname,int noofemp)
+        {
+            this.dname = dname;
+            this.noofemp = noofemp;
+        }
+    }
+    class Employee: Dept 
+    {
+        string ename;
+        string edesig;
+
+        public Employee(string ename, string edesig,string dname,int noofemp):base(dname,noofemp)
+        {
+            this.ename = ename;
+            this.edesig = edesig;
+        }
+        public void printdetails()
+        {
+            Console.WriteLine("Dept Name={0},No_of_employee={1}",dname,noofemp);
+            Console.WriteLine("Emp Name={0},Designation={1}", ename, edesig);
+        }
+    }
+   
+
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Employee obj = new Employee("scott", "S/W ENGG", "Testing", 25);
+            obj.printdetails();
+        }
+    }
+}
+
+static/non-static constructor
+
+namespace MYAPPONE
+{
+    class Dept:Object
+    {
+        public Dept()
+        {
+            Console.WriteLine("A");
+        }
+        static Dept()
+        {
+            Console.WriteLine("B");
+        }
+    }
+    class Employee : Dept
+    {
+        public Employee()
+        {
+            Console.WriteLine("C");
+        }
+        static Employee()
+        {
+            Console.WriteLine("D");
+        }
+    }
+
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Employee obj = new Employee(); // D B A C
+
+        }
+    }
+}
+
+Interface
+->group/collection of abstract methods/functions
+->variable declaration is not allowed.
+->methods/functions of interface are public.
+->All methods of interface should be implemented.
+
+namespace MYAPPONE
+{
+    interface Interface_One
+    {
+        void display();
+        void print(int x);
+        string combine(string x, string y);
+    }
+
+    class Sample : Interface_One
+    {
+        public string combine(string x, string y)
+        {
+            return (string.Concat(x,y));
+        }
+
+        public void display()
+        {
+            Console.WriteLine("interface method");
+        }
+
+        public void print(int x)
+        {
+            Console.WriteLine("square of {0} is {1}", x, (x * x));
+        }
+    }
+
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Sample s1 = new Sample();
+            Console.WriteLine("NEW string is=" +s1.combine("C#", "PROGRAMMING"));
+            s1.display();
+            s1.print(10);
+        }
+    }
+}
+
+namespace MYAPPONE
+{
+    interface Interface_One
+    {
+        void display();
+    }
+
+    interface Interface_two
+    {
+        void display();
+    }
+
+    class Sample : Interface_One,Interface_two
+    {
+         void Interface_One.display()
+        {
+            Console.WriteLine("method of Interface_One");
+        }
+
+         void Interface_two.display()
+        {
+            Console.WriteLine("method of Interface_Two");
+        }
+    }
+
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Sample s1 = new Sample();
+            ((Interface_One)s1).display();
+            ((Interface_two)s1).display();
+        }
+    }
+}
+
+abstract method:methods without definition are reffered as abstract 
+
+concrete method:methods with definition are reffered as concrete 
+
+Nested namespace:
+using System;
+using System.Text;
+
+namespace MYAPPONE
+{
+    namespace NS_ONE
+    {
+        class Demo
+        {
+            public void print()
+            {
+                Console.WriteLine("HTML,CSS AND JQUERY");
+            }
+        }
+    }
+    
+    namespace NS_TWO
+    {
+        class Demo
+        {
+            public void print()
+            {
+                Console.WriteLine("AJAX,XML,XAML");
+            }
+        }
+    }
+
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            NS_ONE.Demo d1 = new NS_ONE.Demo();
+            d1.print();
+
+            NS_TWO.Demo d2 = new NS_TWO.Demo();
+            d2.print();
+        }
+    }
+}
+
+
+polymorphism:
+poly->multiple
+morphism->forms/behaviours
+
+types
+Compile-time,function overloading,static,early binding
+
+namespace MYAPPONE
+{
+    namespace NS_TWO
+    {
+        class Demo
+        {
+            public void print()
+            {
+                Console.WriteLine("AJAX,XML,XAML");
+            }
+
+            public double print(int x)
+            {
+                return (Math.Pow(x, 3));
+            }
+
+            public double print(double x)
+            {
+                return (Math.Pow(x, 5));
+            }
+
+            public double print(int x,int y)
+            {
+                int r = x * y;
+                return (Math.Sqrt(r));
+            }
+        }
+    }
+
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            NS_TWO.Demo d1 = new NS_TWO.Demo();
+            d1.print();
+            Console.WriteLine("Result= {0}" , d1.print(10));
+            Console.WriteLine("Result= {0}", d1.print(3));
+            Console.WriteLine("Result= {0}", d1.print(10, 20));
+        }
+    }
+}
+
+Runtime,function overidding,dynamic,late binding
+
+namespace MYAPPONE
+{
+        class Demo1
+        {
+            public virtual void print()
+            {
+                Console.WriteLine("HTML,CSS,JS");
+            }
+        }
+        class Demo2:Demo1
+        {
+            public override void print()
+            {
+                Console.WriteLine("HTML5 ,CSS3,JQUERY");
+            }
+        }
+
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Demo2 OBJ = new Demo2();
+            OBJ.print();
+        }
+    }
+}
+
+
+using System;
+using System.Text;
+
+namespace MYAPPONE
+{
+        class Vehicle
+        {
+        public string name;
+        public decimal price;
+        public string color;
+
+        public Vehicle(string name,decimal price,string color)
+        {
+            this.name = name;
+            this.price = price;
+            this.color = color;
+        }
+        public virtual void print()
+        {
+        }
+        }
+        class TWOWH: Vehicle
+       {
+        double mileage;
+        public TWOWH(string name, decimal price, string color, double mileage):base(name,price,color)
+        {
+            this.mileage = mileage;
+        }
+        public override void print()
+            {
+                Console.WriteLine("name={0},price={1},color={2},mileage={3}",name,price,color,mileage);
+            }
+        }
+
+        class FOURWH : Vehicle
+        {
+            double mileage;
+            public FOURWH(string name, decimal price, string color, double mileage) : base(name, price, color)
+            {
+                this.mileage = mileage;
+            }
+            public override void print()
+            {
+                Console.WriteLine("name={0},price={1},color={2},mileage={3}", name, price, color, mileage);
+            }
+        }
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            TWOWH obj1 = new TWOWH("HONDA ACTIVA", 65000, "SILVER", 35);
+            obj1.print();
+
+            FOURWH obj2 = new FOURWH("INNOVA CRYSTA", 2700000, "white", 20);
+            obj2.print();
+        }
+    }
+}
+
+Function Parameters:
+ref,out,params,named,default/optional.
+
+Types of class
+1.Abstract
+2.sealed
+3.Partial class
+4.static class
+
+
